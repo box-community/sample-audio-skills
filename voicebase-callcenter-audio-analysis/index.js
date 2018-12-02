@@ -17,8 +17,6 @@ let indexerEvent;
  * @return {callback} callback for event processing with the uploaded media id
  */
 const uploadMedia = (boxFileId, tokens, callback) => {
-  console.log(`FUNCTION UPLOADMEDIA FILE ID ${boxFileId}`);
-  
   // Create new Box SDK instance
   const sdk = new boxSDK({
     clientID: config.boxClientId,
@@ -38,7 +36,6 @@ const uploadMedia = (boxFileId, tokens, callback) => {
       // UPLOAD MEDIA TO VOICEBASE
       const callbackUrl = config.uploadConfig.publish.callbacks[0].url;
       config.uploadConfig.publish.callbacks[0].url = `${callbackUrl}?fileid=${boxFileId}&at=${tokens.write}`;
-      console.log('URL: ' + config.uploadConfig.publish.callbacks[0].url);
     
       vbapi.media.upload(stream, config.uploadConfig, {}, {}).then((data) => {
         callback(data.mediaId);
@@ -53,8 +50,6 @@ const uploadMedia = (boxFileId, tokens, callback) => {
  * @return {void}
  */
 const deleteMedia = (mediaId) => {
-  console.log(`REMOVE MEDIA: ${mediaId}----------------------------------------`);
-
   // VoiceBase API configuration
   const vbapi = new voicebase({
     bearerToken: config.bearerToken
@@ -224,8 +219,6 @@ const processCallData = (boxFileId, body, callback) => {
     cards: [ transcriptCard, keywordCard, appointmentCard, qualityCard, timelineCard ]
   };
 
-  console.log(util.inspect(callbackObj, {showHidden: false, depth: null}));
-
   if (transcriptCard == 'undefined') {
     indexerCallback(null, { statusCode: 200, body: 'Transcript is null while processing' });
   } else {
@@ -248,18 +241,13 @@ const addMetadata = (boxFileId, vbMediaId, token, metadata, callback) => {
   let BoxClient = sdk.getBasicClient(token);
   let indexLocation = 0;
 
-  console.log(`MEDIA ADD START: ${boxFileId} ::: ${token}`);
-
   BoxClient.files.addMetadata(boxFileId, BoxClient.metadata.scopes.GLOBAL, 'boxSkillsCards', metadata).then((err, metadata) => {	
-    console.log("ADDING----------------------------------------------------------------");
     callback(`Updated ${vbMediaId}`);
 
     // Purge uploaded media
     deleteMedia(vbMediaId);
   }).catch(function (err) {    
     if (err.response && err.response.body && err.response.body.code === 'tuple_already_exists') {
-      console.log("UPDATING----------------------------------------------------------------");
-
       const jsonPatch = metadata.cards.map(card => ({ 
         op: 'replace', 
         path: '/cards', 
@@ -267,7 +255,6 @@ const addMetadata = (boxFileId, vbMediaId, token, metadata, callback) => {
       }));
 
       BoxClient.files.updateMetadata(boxFileId, BoxClient.metadata.scopes.GLOBAL, 'boxSkillsCards', jsonPatch).then((err, metadata) => {
-        console.log('updated');
         callback(`Updated ${vbMediaId}`);
 
         // Purge uploaded media
@@ -313,8 +300,6 @@ const createMetadataCard = (fileId, type, title, duration, entries) => {
     entries: entries
   };
 
-  console.log(util.inspect(card, {showHidden: false, depth: null}));
-
   return card;
 };
 
@@ -334,19 +319,11 @@ const processEvent = () => {
     //console.log(body);
 
     if (boxFileId && at) {
-      console.log(body);
-      console.log(`MEDIA PROCESSING: ${boxFileId} ::: ${at}`);
-      //fileManager[boxFileId].vbid = mediaId;
-    
-      //console.log(util.inspect(metrics, {showHidden: false, depth: null}));
-
       processCallData(boxFileId, body, function(processedAudio) {
         const metadataObj = { cards: [] };
         for (let card of processedAudio.cards) {
           metadataObj.cards.push(card);
         }
-
-        console.log(util.inspect(metadataObj, {showHidden: false, depth: null}));
 
         addMetadata(boxFileId, processedAudio.vbid, at, metadataObj, function(mediaId) {
           indexerCallback(null, { statusCode: 200, body: mediaId });
@@ -356,22 +333,15 @@ const processEvent = () => {
 
   // Initial invocation from Box
   } else {
-    console.log('UPLOADING MEDIA');
-    //console.log(util.inspect(indexerEvent, {showHidden: false, depth: null}));
     const { source, token, id } = JSON.parse(body);
     
-    console.log(source);
-
     // If file has not been uploaded previously, upload
     if (fileManager.indexOf(source.id) == -1) {
       const tokens = {read: token.read.access_token, write: token.write.access_token};
 
       fileManager.push(source.id);
 
-      console.log(`FUNCTION PROCESS EVENT FILE ID ${source.id}`);
-
       uploadMedia(source.id, tokens, function(mediaId) {
-        console.log(`MEDIA UPLOADED: ${mediaId}`);
         indexerCallback(null, { statusCode: 200, body: mediaId });
       });
     }
