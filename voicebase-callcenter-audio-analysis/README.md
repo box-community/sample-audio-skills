@@ -1,16 +1,25 @@
-# VoiceBase Dual-Channel Audio Analysis Box Skill 
+# VoiceBase Dual-Channel Audio Analysis
 
-This Box Skill is targeted towards call center audio file analysis. The service accepts a dual-channel audio file (two speakers) and will use the [VoiceBase](https://www.voicebase.com/) audio analysis APIs to extract the following data segments:
+Use the [VoiceBase API](https://developer.voicebase.com/) to automatically extract data insights from audio files and attach them to your files as metadata.
+
+[VoiceBase](https://www.voicebase.com/) is a speech analytics solutions that is geared towards call center audio file analysis. This Skill service is set up using AWS Lambda and accepts a dual-channel audio file (two speakers) and will use the [VoiceBase](https://www.voicebase.com/) audio analysis APIs to extract the following data segments:
 
   * *Transcript*: The transcript of the audio file with sensitive information (SSN, PCI) redacted. 
   * *Topics*: The topics of the call using a whitelist of available topics.
-  * *Apointment Predictor*: Determination of whether an appointment was scheduled during the call or not.
+  * *Appointment Predictor*: Determination of whether an appointment was scheduled during the call or not.
   * *Call Metrics*: Percentage of caller / agent talk and overtalk.
   * *Sensitive Information*: Whether any sensitive information was detected in the audio, with its location.
 
-![screen](./skills_vb.png)
+![VoiceBase Custom Skill](./screenshots/skills_vb_full.png)
 
-## Setting up a New Lambda
+## Usage
+
+### Prerequisites
+
+  * Make sure to sign up for a [VoiceBase Developer](https://developer.voicebase.com) account and obtain a VoiceBase API Bearer Token.
+  * Make sure to sign up for a [Box Developer](https://developer.box.com/) account and prepare your app for Box skills. See our [developer documentation](https://developer.box.com/docs/box-skills) for more guidance. 
+
+## Setting up a New AWS Lambda
 
   1. Go to https://aws.amazon.com/lambda/ and click "Get Started with AWS Lambda" (log in if needed)
   2. Click on "Create Function" in the top right.
@@ -30,4 +39,40 @@ This sample uses a number of environment variables for the API configuration. To
   2. *BOX_CLIENT_SECRET*: Your client secret from the Skills application on the [Box developer console](https://cloud.app.box.com/developers/console)
   3. *LAMBDA_INVOKE_URL*: The invoke URL of your lambda. To obtain this, click on the "API Gateway" option at the top (below your lambda name), then expand the "API" section under "API Gateway" at the bottom. This section will include your "API Endpoint".
   4. *VOICEBASE_BEARER_TOKEN*: Your [VoiceBase](https://developer.voicebase.com/) application bearer token.
-  5. *VOICEBASE_QUERY_ANALYTICS_KEY*: Your [VoiceBase](https://developer.voicebase.com/) application analytics key.
+
+## Deploying this Skill to Your Lambda
+
+To deploy the code to listen for audio file upload events on Box:
+
+  1. Download or clone this repo.
+  2. In the **voicebase-callcenter-audio-analysis** folder, run `npm install` to download all required Node packages.
+  3. Zip all contents of that folder into a new .zip file.
+
+With the .zip file created, follow these steps to upload it to your lambda:
+
+  1. Within your new lambda, click on the name of your lambda at the top within the "Designer" section.
+  2. In the "Function Code" section, select "Upload a .zip file" in the "Code entry type" dropdown.
+  3. Click the "Upload" button and select the .zip file you created.
+  4. Once uploaded, click on the "Save" button at the top right of your lambda.
+
+Your lambda is now ready to start accepting upload events from Box Skills.
+
+## Frequently Asked Questions
+
+### Who might use this Skill?
+This Skill enables many automatic data insights that would have typically been done by an individual manually listening the the entire audio conversations, which is ideal for call centers that need to process many audio files in a given day, or simply when manual review of stored conversations is not possible. 
+
+### What types of files does this Skill handle?
+This Skill will handle any dual channel audio files in the following formats: *.mp3, *.mp4, *.flv, *.wmv, *.avi, *.mpeg, *.aac, *.aiff, *.au, *.ogg, *.3gp, *.flac, *.ra, *.m4a, *.wma, *.m4v, *.caf, *.cf, *.mov, *.mpg, *.webm, *.wav, *.asf, *.amr
+
+### What metadata is written back to my Box file?
+The following data will be written back to the original audio file, as Skills cards:
+
+  * *Transcript*: The transcript of the audio file with sensitive information (SSN, PCI) redacted. 
+  * *Topics*: The topics of the call using a whitelist of available topics.
+  * *Appointment Predictor*: Determination of whether an appointment was scheduled during the call or not.
+  * *Call Metrics*: Percentage of caller / agent talk and overtalk.
+  * *Sensitive Information*: Whether any sensitive information was detected in the audio, with its location.
+
+### What implications does this have for my business?
+Audio analysis is a very costly, yet valuable, process. The insights garnered from an audio file can allow you to build an analysis of typical customer requests, issues, and needs, as well as gage the effectiveness of the call agents. With these insights your business can run smartly, tracking metrics based on actual customer needs and experiences.
