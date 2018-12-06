@@ -2,8 +2,6 @@
 
 const boxSDK = require('box-node-sdk');
 const config = require('./config.js');
-const fs = require('fs');
-const util = require('util');
 const voicebase = require('./lib/vb-api.js');
 
 let fileManager = [];
@@ -364,7 +362,7 @@ const isValidEvent = () => {
  * @param {callback}  callback - the function to call back to once finished
  * @return {callback} lambda callback
  */
-exports.handler = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
   // Set indexer information
   indexerCallback = callback;
   indexerEvent = event;

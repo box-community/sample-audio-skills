@@ -1,0 +1,20 @@
+service: VoicebaseCallcenterSkill
+provider:
+  name: aws
+  runtime: nodejs8.10  
+  region: us-east-1
+
+functions:
+  index:
+    handler: index.handler
+    name: skill
+    runtime: nodejs8.10
+    events:
+      - http:
+          method: POST
+          path: skill
+          cors: true
+    environment:
+      BOX_CLIENT_ID: YOUR_BOX_CLIENT_ID
+      BOX_CLIENT_SECRET: YOUR_BOX_CLIENT_SECRET
+      VOICEBASE_BEARER_TOKEN: YOUR_VOICEBASE_BEARER_TOKEN

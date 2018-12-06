@@ -2,6 +2,10 @@
 
 Use the [VoiceBase API](https://developer.voicebase.com/) to automatically extract data insights from audio files and attach them to your files as metadata.
 
+![VoiceBase Custom Skill](./screenshots/skills_vb_full.png)
+
+## About VoiceBase
+
 [VoiceBase](https://www.voicebase.com/) is a speech analytics solutions that is geared towards call center audio file analysis. This Skill service is set up using AWS Lambda and accepts a dual-channel audio file (two speakers) and will use the [VoiceBase](https://www.voicebase.com/) audio analysis APIs to extract the following data segments:
 
   * *Transcript*: The transcript of the audio file with sensitive information (SSN, PCI) redacted. 
@@ -10,8 +14,6 @@ Use the [VoiceBase API](https://developer.voicebase.com/) to automatically extra
   * *Call Metrics*: Percentage of caller / agent talk and overtalk.
   * *Sensitive Information*: Whether any sensitive information was detected in the audio, with its location.
 
-![VoiceBase Custom Skill](./screenshots/skills_vb_full.png)
-
 ## Usage
 
 ### Prerequisites
@@ -19,43 +21,50 @@ Use the [VoiceBase API](https://developer.voicebase.com/) to automatically extra
   * Make sure to sign up for a [VoiceBase Developer](https://developer.voicebase.com) account and obtain a VoiceBase API Bearer Token.
   * Make sure to sign up for a [Box Developer](https://developer.box.com/) account and prepare your app for Box skills. See our [developer documentation](https://developer.box.com/docs/box-skills) for more guidance. 
 
-## Setting up a New AWS Lambda
+### Configuring Serverless
 
-  1. Go to https://aws.amazon.com/lambda/ and click "Get Started with AWS Lambda" (log in if needed)
-  2. Click on "Create Function" in the top right.
-  3. Choose "Author from Scratch" at the top, add any name for your lambda under "Name", choose your "Runtime" (e.g. Node.js 6.10), leave "Role" as "Choose an Existing Role", and select "lambda_basic_execution" under "Existing Role". Click "Create Function" at the bottom.
-  4. From the Designer section that loads up, click on the "API Gateway" option within the left list to add it to the project. This will add the ability to have your lambda act as a listener for events that will be sent from Box and the ML / AI systems once processing is complete.
-  5. A new "Configure triggers" section will load on the page once the API Gateway option is added. Under the "API" dropdown in that section, click on "Create a New API".
-  6. Under the new "Security" dropdown, click "Open", then click the "Add" button in the bottom right.
-  7. Click the "Save" button at the top right of the page to save your new lambda. 
-  8. At the top of the page, click on the name of your lambda above the "API Gateway" and "Cloudwatch Logs" options. This section will allow you to set the configuration of your app and enter in your lambda code. The "Environment Variables" section will allow you to add in key / value pairs that should be made available in your lambda. 
-  9. Within the "Basic Settings" section, set the timeout from 0-3 seconds to 0-30 seconds, then save the lambda again.
+Our Box skills uses the excellent [Serverless framework](https://serverless.com/). This framework allows for deployment to various serverless platforms, but in this example we will use AWS as an example.
 
-## Setting the Lambda Environment Configuration Variables
+To use Serverless, install the NPM module.
 
-This sample uses a number of environment variables for the API configuration. To set them, click on your lambda name at the top of the page, then scroll down to the "Environment variables" section. Set the following:
+```bash
+npm install -g serverless
+```
 
-  1. *BOX_CLIENT_ID*: Your client ID from the Skills application on the [Box developer console](https://cloud.app.box.com/developers/console)
-  2. *BOX_CLIENT_SECRET*: Your client secret from the Skills application on the [Box developer console](https://cloud.app.box.com/developers/console)
-  3. *LAMBDA_INVOKE_URL*: The invoke URL of your lambda. To obtain this, click on the "API Gateway" option at the top (below your lambda name), then expand the "API" section under "API Gateway" at the bottom. This section will include your "API Endpoint".
-  4. *VOICEBASE_BEARER_TOKEN*: Your [VoiceBase](https://developer.voicebase.com/) application bearer token.
+Next, follow our guide on [configuring Serverless for AWS](../AWS_CONFIGURATION.md), or any of the guides on [serverless.com](https://serverless.com/) to allow deploying to your favorite serverless provider.
 
-## Deploying this Skill to Your Lambda
+### Deploying
 
-To deploy the code to listen for audio file upload events on Box:
+Clone this repo and change into the Rossum folder.
 
-  1. Download or clone this repo.
-  2. In the **voicebase-callcenter-audio-analysis** folder, run `npm install` to download all required Node packages.
-  3. Zip all contents of that folder into a new .zip file.
+```bash
+git clone https://github.com/box-community/sample-document-skills
+cd sample-document-skills/rossum-invoice-intelligence
+```
 
-With the .zip file created, follow these steps to upload it to your lambda:
+Then change the environment variables in your `serverless.yml` file with the following.
 
-  1. Within your new lambda, click on the name of your lambda at the top within the "Designer" section.
-  2. In the "Function Code" section, select "Upload a .zip file" in the "Code entry type" dropdown.
-  3. Click the "Upload" button and select the .zip file you created.
-  4. Once uploaded, click on the "Save" button at the top right of your lambda.
+1. `BOX_CLIENT_ID`: Your client ID from the Skills application on the [Box developer console](https://cloud.app.box.com/developers/console)
+1. `BOX_CLIENT_SECRET`: Your client secret from the Skills application on the [Box developer console](https://cloud.app.box.com/developers/console)
+1. `VOICEBASE_BEARER_TOKEN`: Your [VoiceBase](https://developer.voicebase.com/) application bearer token.
 
-Your lambda is now ready to start accepting upload events from Box Skills.
+```yaml
+...
+
+functions:
+  index:
+    ...
+    environment:
+      BOX_CLIENT_ID: YOUR_BOX_CLIENT_ID
+      BOX_CLIENT_SECRET: YOUR_BOX_CLIENT_SECRET
+      VOICEBASE_BEARER_TOKEN: YOUR_VOICEBASE_BEARER_TOKEN
+```
+
+Finally, deploy the Skill.
+
+```bash
+serverless deploy -v
+```
 
 ## Frequently Asked Questions
 
