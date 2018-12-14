@@ -1,7 +1,7 @@
 # Configure Serverless for AWS
 
 
-Then in order to give Serverless access to your AWS account, you'll need to create a new AWS IAM User with admin access. There is an excellent guide available on [serverless.com](https://serverless.com/framework/docs/providers/aws/guide/credentials/), but here is a simple recap.
+In order to give Serverless access to your AWS account, you'll need to create a new AWS IAM User with admin access. There is an excellent guide available on [serverless.com](https://serverless.com/framework/docs/providers/aws/guide/credentials/), but here is a simple recap.
 
 * Create or log in to your [Amazon Web Services](https://aws.amazon.com/) account	  
 * Go to the "Identity & Access Management (IAM)" page	  
