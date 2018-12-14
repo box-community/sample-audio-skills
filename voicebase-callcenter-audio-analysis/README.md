@@ -12,6 +12,8 @@ Use the [VoiceBase API](https://developer.voicebase.com/) to automatically extra
 
 ![VoiceBase Custom Skill](./screenshots/skills_vb_full.png)
 
+Note: Not visible in the above image, this skill also shows the redacted transcript, of which you can view a sample [here](./screenshots/skills_vb.png)
+
 ## Usage
 
 ### Prerequisites
