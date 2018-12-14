@@ -1,6 +1,6 @@
 # Box Skills Samples: Custom Skills for Processing Audio Files 
 
-These are community created Box Skills samples for processing **audio files** on Box. By clicking on each sub-folder, you can see a demo image of the end product, as it would look in your Box file preview.
+This repository contains community created Box Skills samples for processing **audio files** on Box. By clicking on each sub-folder, you can see a demo image of the end product, as it would look in your Box file preview.
 
 * [VoiceBase Dual-Channel Audio Analysis](voicebase-callcenter-audio-analysis) - Use the VoiceBase API to automatically extract data insights from audio files and attach them to your files as metadata. This skill is especially geared towards call center audio file analysis.
 
