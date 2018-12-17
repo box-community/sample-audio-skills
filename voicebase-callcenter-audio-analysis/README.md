@@ -46,7 +46,7 @@ For this sample, we will be deploying a new serverless function to [AWS Lambda](
     * The **Environment Variables** section will allow you to add in key / value pairs that should be made available in your code. 
   1. Within the **Basic Settings** section, set the timeout from *0-3* seconds to *0-30* seconds, then save the Lambda function again.
 
-## Configure AWS Lambda Environment Variables
+### Configure AWS Lambda Environment Variables
 
 This sample uses a number of environment variables for the API configuration. To set them, click on your lambda name at the top of the page, then scroll down to the "Environment variables" section. Set the following:
 
@@ -55,7 +55,7 @@ This sample uses a number of environment variables for the API configuration. To
   3. `LAMBDA_INVOKE_URL`: The invoke URL of your Lambda. To obtain this, click on the **API Gateway** option at the top (below your Lambda function name), then expand the **API** section under **API Gateway** at the bottom. This section will include your **API Endpoint**.
   4. `VOICEBASE_BEARER_TOKEN`: Your [VoiceBase](https://developer.voicebase.com/) application bearer token.
 
-## Deploy Box Skill to AWS Lambda
+### Deploy Box Skill to AWS Lambda
 
 To deploy the code to listen for audio file upload events on Box:
 
