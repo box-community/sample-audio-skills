@@ -2,17 +2,17 @@
 
 Use the [VoiceBase API](https://developer.voicebase.com/) to automatically extract data insights from audio files and attach them to your files as metadata.
 
-[VoiceBase](https://www.voicebase.com/) is a speech analytics solutions that is geared towards call center audio file analysis. This Skill service is set up using AWS Lambda and accepts a dual-channel audio file (two speakers) and will use the [VoiceBase](https://www.voicebase.com/) audio analysis APIs to extract the following data segments:
-
-  * *Transcript*: The transcript of the audio file with sensitive information (SSN, PCI) redacted. 
-  * *Topics*: The topics of the call using a whitelist of available topics.
-  * *Appointment Predictor*: Determination of whether an appointment was scheduled during the call or not.
-  * *Call Metrics*: Percentage of caller / agent talk and overtalk.
-  * *Sensitive Information*: Whether any sensitive information was detected in the audio, with its location.
+[VoiceBase](https://www.voicebase.com/) is a speech analytics solutions that is geared towards call center audio file analysis. This Skill accepts a dual-channel audio file (two participants) and will use the [VoiceBase](https://www.voicebase.com/) audio analysis APIs to extract various data.
 
 ![VoiceBase Custom Skill](./screenshots/skills_vb_full.png)
 
-Note: Not visible in the above image, this skill also shows the redacted transcript, of which you can view a sample [here](./screenshots/skills_vb.png)
+This skill extracts the following data:
+
+* [*Transcript*](./screenshots/skills_vb.png): The transcript of the audio file with sensitive information (SSN, PCI) redacted. 
+* *Topics*: The topics of the call using a whitelist of available topics.
+* *Appointment Predictor*: Determination of whether an appointment was scheduled during the call or not.
+* *Call Metrics*: Percentage of caller / agent talk and overtalk.
+* *Sensitive Information*: Whether any sensitive information was detected in the audio, with its location.
 
 ## Usage
 
