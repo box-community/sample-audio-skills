@@ -2,9 +2,9 @@
 
 This repository contains community created Box Skills samples for processing **audio files** on Box. By clicking on each sub-folder, you can see a demo image of the end product, as it would look in your Box File Preview.
 
-* [IBM Speech to Text Audio Transcription](ibm-watson-transcript-extraction) - Uses IBM Watson Speech to Text API (https://www.ibm.com/watson/services/speech-to-text/) to extract transcripts from from audio files and write it back to Box as metadata on the file.
+* [IBM Speech to Text Audio Transcription](ibm-watson-transcript-extraction) - Uses [IBM Watson Speech to Text] (https://www.ibm.com/watson/services/speech-to-text/) to extract transcripts from from audio files and write it back to Box as metadata on the file.
 
-* [Microsoft Azure Transcript Topics Detection](microsoft-azure-transcript-topics-detection) - Uses the Microsoft Azure Media Services API (https://docs.microsoft.com/en-us/azure/media-services/latest/analyzing-video-audio-files-concept) to extract Topics, and Transcripts from from audio files and write it back to Box as metadata on the file.
+* [Microsoft Azure Transcript Topics Detection](microsoft-azure-transcript-topics-detection) - Uses the [Microsoft Azure Media Services] (https://docs.microsoft.com/en-us/azure/media-services/latest/analyzing-video-audio-files-concept) to extract Topics, and Transcripts from from audio files and write it back to Box as metadata on the file.
 
 * [VoiceBase Dual-Channel Audio Analysis](voicebase-callcenter-audio-analysis) - Uses the [VoiceBase](https://developer.voicebase.com/) API to automatically extract data insights like transcript, topics, call metrics and sensitive information from audio files and attach them to the respective files as Skills Metadata Cards in Box Preview. This Skill is especially geared towards call center audio file analysis.
 
