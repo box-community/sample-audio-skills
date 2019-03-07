@@ -1,0 +1,15 @@
+[ignore]
+*/node_modules/**
+
+[include]
+index.js
+./ibm
+
+[libs]
+
+[lints]
+
+[options]
+module.file_ext=.js
+
+[strict]

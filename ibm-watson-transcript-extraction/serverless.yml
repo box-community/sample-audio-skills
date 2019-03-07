@@ -1,0 +1,40 @@
+# For full Serverless config options, check the docs:
+#    https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+
+service: box-skills-ibm-audio
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  timeout: 60 # 1 min
+  versionFunctions: true # maintains past versions in single deployment
+
+# overwriting defaults
+  stage: ${opt:stage, 'dev'}
+  region: us-east-2
+
+# service wide environment variables
+  environment:
+    BOX_API_ENDPOINT: https://api.box.com/2.0
+    DEBUG: ${opt:debug, 'true'}
+    BOX_SKILLS_IBM_SPEECH_TO_TEXT_KEYWORDS_CALLBACK_ENDPOINT: { "Fn::Join" : ["", [ "https://", { "Ref" : "ApiGatewayRestApi" }, ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/${self:service}" ] ]  }
+    BOX_SKILLS_IBM_SPEECH_TO_TEXT_RESULTS_TTL_MINUTES: ${opt:resultsTtl, '720'} # make 5mins for prod
+    SKILL_ACCEPTED_FORMATS: 'aac,aif,aifc,aiff,amr,au,flac,m4a,mp3,ra,wav,wma'
+    SKILL_USE_ORIGINAL_FILE_FOR: 'flac,mp3,wav'
+    SKILL_FILE_SIZE_LIMIT_MB: '1000'
+    SPEECH_TO_TEXT_USERNAME: 'ADD_FROM_YOUR_IBM_ACCOUNT'
+    SPPECH_TO_TEXT_PASSWORD: 'ADD_FROM_YOUR_IBM_ACCOUNT'
+    SIGNATURE_HASH_KEY: ${opt:signatureHashKey, 'MANUALLY_ADD_SIGNATURE_HASH_KEY_FOR_DEV'}
+    SYMMETRIC_ENCRYPTION_KEY: ${opt:symmetricEncryptionKey, 'MANUALLY_ADD_SYMMETRIC_ENCRYPTION_KEY_FOR_DEV'}
+
+# packaging information
+package:
+  artifact: ./watson-audio-nodejs.zip
+
+functions:
+  skill:
+    handler: index.handler
+    events: # The Events that trigger this Function
+      - http:
+          path: ${self:service}
+          method: any

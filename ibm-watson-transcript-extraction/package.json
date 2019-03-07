@@ -1,0 +1,68 @@
+{
+    "name": "ms-ibm-audio-custom-skill",
+    "version": "1.0.0-beta",
+    "description": "Box Built-in Skill to process audio files using IBM speech-to-text API",
+    "main": "index.js",
+    "scripts": {
+        "format":
+            "NODE_ENV=dev ./node_modules/.bin/prettier \"**/*.js\" --print-width 120 --single-quote --tab-width 4 --write; ./node_modules/.bin/eslint \"**/*.js\" --fix",
+        "flow": "flow",
+        "zip":
+            "zip -rMM9 -q ../watson-audio-nodejs * -x *.json && echo \"\\033[0;32m SUCCESS: watson-audio-nodejs.zip created! \\033[0m\n\" || echo \"\\033[0;31m FAIL: Zip creation failed \\033[0m\n\"",
+        "build":
+            "npx babel ibm --out-dir lib/ibm --ignore ibm/test; npx babel index.js --out-dir lib; cp package.json intrinsic.js lib/; cd lib; NODE_ENV=production npm install; npm run zip",
+        "test": "jest --coverage",
+        "precommit": "lint-staged",
+        "deploy": "npm run build; serverless deploy",
+        "undeploy": "serverless remove -v",
+        "postdeploy": "serverless invoke --function skill --path integration-test-request.json --log"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://git.dev.box.net/Box/box-skills.git"
+    },
+    "author": "Box Skills",
+    "private": true,
+    "homepage": "https://git.dev.box.net/Box/box-skills/#readme",
+    "dependencies": {
+        "box-node-sdk": "^1.25.0",
+        "enum": "^2.5.0",
+        "lodash": "^4.17.10",
+        "watson-developer-cloud": "^3.3.0",
+        "jimp": "^0.5.4",
+        "lodash": "^4.17.11",
+        "moment": "^2.24.0",
+        "path": "^0.12.7",
+        "url-template": "^2.0.8"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-eslint": "^8.2.2",
+        "babel-plugin-transform-async-to-generator": "^6.24.1",
+        "babel-plugin-typecheck": "^3.9.0",
+        "babel-preset-flow": "^6.23.0",
+        "babel-preset-env": "^1.7.0",
+        "eslint": "^4.19.1",
+        "eslint-config-airbnb-base": "^12.1.0",
+        "eslint-config-box-skills": "^1.0.0-beta",
+        "eslint-config-prettier": "^2.9.0",
+        "eslint-plugin-import": "^2.9.0",
+        "flow-bin": "^0.70.0",
+        "husky": "^0.14.3",
+        "jest": "^22.4.3",
+        "lint-staged": "^7.0.0",
+        "prettier": "^1.11.1",
+        "serverless": "^1.26.1"
+    },
+    "jest": {
+        "verbose": false,
+        "collectCoverageFrom": ["ibm/*.js", "index.js"]
+    },
+    "lint-staged": {
+        "**/*.js": [
+            "./node_modules/.bin/prettier \"**/*.js\" --print-width 120 --single-quote --tab-width 4 --write",
+            "./node_modules/.bin/eslint **/*.js --fix",
+            "git add"
+        ]
+    }
+}
