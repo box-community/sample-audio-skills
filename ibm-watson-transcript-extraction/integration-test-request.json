@@ -1,0 +1,16 @@
+{
+    "resource": "/box-skills-ibm-audio-nodejs",
+    "path": "/box-skills-ibm-audio-nodejs",
+    "httpMethod": "POST",
+    "headers": {
+        "X-Forwarded-For": "",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "queryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": null,
+    "body": "REPLACE WITH ESCAPED BODY OF AN EVENT PUMP REQUEST OBJ WITH VALID TOKENS, BEFORE RUNNING TEST",
+    "isBase64Encoded": false
+}

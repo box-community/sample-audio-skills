@@ -1,0 +1,79 @@
+{
+    "name": "ms-ams-video-audio-skill",
+    "version": "v1.0.1-beta",
+    "description": "Box Skill to process video and audio files with Microsoft's Azure Media Services",
+    "main": "index.js",
+    "scripts": {
+        "flow": "flow",
+        "build":
+            "npx babel microsoft --out-dir lib/microsoft; npx babel box --out-dir lib/box; npx babel index.js --out-dir lib; npx babel mediatype --out-dir lib/mediatype; cp package.json  intrinsic.js lib/; cd lib; NODE_ENV=production npm install; npm run zip",
+        "deploy": "npm run build; serverless deploy",
+        "format":
+            "NODE_ENV=dev ./node_modules/.bin/prettier \"**/*.js\" --print-width 120 --single-quote --tab-width 4 --write; ./node_modules/.bin/eslint \"**/*.js\" --fix",
+        "precommit": "lint-staged",
+        "postdeploy": "serverless invoke --function skill --path integration-test.json --log",
+        "test": "jest --coverage",
+        "clear_jest": "jest --clearCache",
+        "undeploy": "serverless remove -v",
+        "zip":
+            "zip -rMM9 -q ../ms-ams-video-nodejs * -x *.json && echo \"\\033[0;32m SUCCESS: ms-ams-video-nodejs.zip created! \\033[0m\n\" || echo \"\\033[0;31m FAIL: Zip creation failed \\033[0m\n\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://git.dev.box.net/Box/box-skills.git"
+    },
+    "author": "Box Skills",
+    "private": true,
+    "homepage": "https://git.dev.box.net/Box/box-skills/#readme",
+    "dependencies": {
+        "azure-arm-eventgrid": "^1.1.0-preview",
+        "azure-arm-mediaservices": "3.0.0-preview",
+        "azure-eventgrid": "1.1.0",
+        "azure-storage": "^2.8.0",
+        "datauri": "^1.1.0",
+        "enum": "^2.5.0",
+        "lodash": "^4.17.10",
+        "ms-rest": "^2.3.0",
+        "ms-rest-azure": "^2.5.0",
+        "redis": "^2.8.0",
+        "request": "^2.85.0",
+        "unescape-js": "^1.0.8",
+        "uuid": "^3.2.1",
+        "box-node-sdk": "^1.25.0",
+        "jimp": "^0.5.4",
+        "lodash": "^4.17.11",
+        "moment": "^2.24.0",
+        "path": "^0.12.7",
+        "url-template": "^2.0.8"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-eslint": "^8.2.2",
+        "babel-plugin-transform-async-to-generator": "^6.24.1",
+        "babel-plugin-typecheck": "^3.9.0",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-flow": "^6.23.0",
+        "eslint": "^4.19.1",
+        "eslint-config-airbnb-base": "^12.1.0",
+        "eslint-config-box-skills": "^1.0.0-beta",
+        "eslint-config-prettier": "^2.9.0",
+        "eslint-plugin-import": "^2.9.0",
+        "flow-bin": "^0.74.0",
+        "husky": "^0.14.3",
+        "jest": "^22.4.4",
+        "lint-staged": "^7.0.0",
+        "prettier": "^1.11.1",
+        "serverless": "^1.26.1"
+    },
+    "jest": {
+        "verbose": false,
+        "collectCoverageFrom": ["microsoft/*.js", "index.js"]
+    },
+    "lint-staged": {
+        "**/*.js": [
+            "./node_modules/.bin/prettier \"**/*.js\" --print-width 120 --single-quote --tab-width 4 --write",
+            "./node_modules/.bin/eslint **/*.js --fix",
+            "git add"
+        ]
+    }
+}

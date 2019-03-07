@@ -2,7 +2,11 @@
 
 This repository contains community created Box Skills samples for processing **audio files** on Box. By clicking on each sub-folder, you can see a demo image of the end product, as it would look in your Box File Preview.
 
-* [VoiceBase Dual-Channel Audio Analysis](voicebase-callcenter-audio-analysis) - Uses the [VoiceBase](https://developer.voicebase.com/) API  to automatically extract data insights like transcript, topics, call metrics and sensitive information from audio files and attach them to the respective files as Skills Metadata Cards in Box Preview. This Skill is especially geared towards call center audio file analysis.
+* [IBM Speech to Text Audio Transcription](ibm-watson-transcript-extraction) - Uses IBM Watson Speech to Text API (https://www.ibm.com/watson/services/speech-to-text/) to extract transcripts from from audio files and write it back to Box as metadata on the file.
+
+* [Microsoft Azure Transcript Topics Detection](microsoft-azure-transcript-topics-detection) - Uses the Microsoft Azure Media Services API (https://docs.microsoft.com/en-us/azure/media-services/latest/analyzing-video-audio-files-concept) to extract Topics, and Transcripts from from audio files and write it back to Box as metadata on the file.
+
+* [VoiceBase Dual-Channel Audio Analysis](voicebase-callcenter-audio-analysis) - Uses the [VoiceBase](https://developer.voicebase.com/) API to automatically extract data insights like transcript, topics, call metrics and sensitive information from audio files and attach them to the respective files as Skills Metadata Cards in Box Preview. This Skill is especially geared towards call center audio file analysis.
 
 ## What are Box Skills?
 
@@ -12,8 +16,7 @@ Visit the [Official Box Skills Developer Documentation](https://developer.box.co
 
 ## What is the Box Skills Kit?
 
-The [Github Repository for Box Skills Kit Library](https://github.com/box/box-skills-kit-nodejs) is our official toolkit for writing custom Box Skills in Node.js. It minimizes the client side code to Box Files and Skills-Invocations APIs to a few lines and provides other utility functions to make developing your code very simple. It has the [Skills-kit Library and API Documentation](https://github.com/box/box-skills-kit-nodejs/tree/master/skills-kit-library)  and Boilerplate Skills that you can quickly deploy and expand on, when developing a new Skill.
-
+The [Github Repository for Box Skills Kit Library](https://github.com/box/box-skills-kit-nodejs) is our official toolkit for writing custom Box Skills in Node.js. It minimizes the client side code to Box Files and Skills-Invocations APIs to a few lines and provides other utility functions to make developing your code very simple. It has the [Skills-kit Library and API Documentation](https://github.com/box/box-skills-kit-nodejs/tree/master/skills-kit-library) and Boilerplate Skills that you can quickly deploy and expand on, when developing a new Skill.
 
 ## What file formats are supported by Box Skills?
 
@@ -34,4 +37,3 @@ In developing your custom Box Skill, you would need to deploy it somewhere. Have
 ## License
 
 This project is licensed under the [Apache 2.0 License](LICENSE)
-

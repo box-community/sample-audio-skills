@@ -1,0 +1,13 @@
+{
+    "presets": ["flow"],
+    "plugins": [
+        [
+            "typecheck",
+            {
+                "disable": {
+                    "production": true
+                }
+            }
+        ]
+    ]
+}

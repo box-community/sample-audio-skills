@@ -1,0 +1,5 @@
+lib
+.serverless
+node_modules
+coverage
+keys

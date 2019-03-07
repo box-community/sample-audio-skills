@@ -1,0 +1,8 @@
+.serverless
+lib
+node_modules
+.DS_Store
+deployed
+package-lock.json
+.vscode
+yarn-error.log

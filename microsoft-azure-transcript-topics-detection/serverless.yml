@@ -1,0 +1,51 @@
+# For full Serverless config options, check the docs:
+#    https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+
+service: box-skills-ms-ams-video-audio
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  timeout: 60 # 1 min
+  versionFunctions: true # maintains past versions in single deployment
+
+# overwriting defaults
+  stage: 'prod'
+  region: us-west-2
+
+# service wide environment variables
+  environment:
+    BOX_API_ENDPOINT: https://api.box.com/2.0
+    DEBUG: ${opt:debug, 'true'}
+    ARM_AAD_AUDIENCE: https://management.core.windows.net/
+    AAD_ENDPOINT: https://login.microsoftonline.com/
+    ARM_ENDPOINT: https://management.azure.com/
+    AAD_CLIENT_ID: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    AAD_SECRET: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    AAD_TENANT_ID: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    SUBSCRIPTION_ID: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    RESOURCE_GROUP: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    ACCOUNT_NAME: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    REGION: 'FILL_FROM_YOUR_AZURE_ACCOUNT'
+    STAGE: 'prod'
+    AUDIO_FILE_EXTENSIONS: "3g2,asf,m2tf,mod,ts,xesc,mpeg,m2v,aiff,mp3,m4b,wma,wav,m4a,flac"
+    SKILL_FILE_SIZE_LIMIT_MB: "10240"
+    LANGUAGE: ${opt:language, 'en-US'}
+    SERVICE: ${self:service}
+    SYMMETRIC_ENCRYPTION_KEY: ${opt:symmetricEncryptionKey, 'REPLACE_WITH_OWN_KEY_HASH'}
+
+# packaging information
+package:
+  artifact: ./ms-ams-audio-nodejs.zip
+
+functions:
+  skill:
+    handler: index.handler
+    events: # The Events that trigger this Function
+      - http:
+          path: ${self:service}
+          method: any
