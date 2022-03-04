@@ -55,7 +55,6 @@
         "babel-preset-flow": "^6.23.0",
         "eslint": "^4.19.1",
         "eslint-config-airbnb-base": "^12.1.0",
-        "eslint-config-box-skills": "^1.0.0-beta",
         "eslint-config-prettier": "^2.9.0",
         "eslint-plugin-import": "^2.9.0",
         "flow-bin": "^0.74.0",
