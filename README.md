@@ -1,4 +1,6 @@
-# Box Skills Samples: Custom Skills for Processing Audio Files
+# This repository has been archived due to our current work to update all Box Skills sample code. We will be releasing updated samples soon.
+
+## Box Skills Samples: Custom Skills for Processing Audio Files
 
 This repository contains community created Box Skills samples for processing **audio files** on Box. By clicking on each sub-folder, you can see a demo image of the end product, as it would look in your Box File Preview.
 
