@@ -1,3 +1,7 @@
+<img src="images/box-dev-logo-clip.png" 
+alt= “box-dev-logo” 
+style="margin-left:-10px;"
+width=40%;>
 # This repository has been archived due to our current work to update all Box Skills sample code. We will be releasing updated samples soon.
 
 ## Box Skills Samples: Custom Skills for Processing Audio Files
